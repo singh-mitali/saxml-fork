@@ -283,6 +283,29 @@ class LLaMA33B(BaseLLaMA):
 
 @servable_model_registry.register
 @quantization.for_transformer(quantize_on_the_fly=False)
+class LLaMA33BMQ(BaseLLaMA):
+  """33B model on TPU v5e-8 with MQ option.
+
+  """
+
+  NUM_LAYERS = 60
+  VOCAB_SIZE = 32000
+  DIMS_PER_HEAD = 128
+  NUM_HEADS = 52
+  MODEL_DIMS = 6656
+  HIDDEN_DIMS = 17920
+  ICI_MESH_SHAPE = [1, 1, 8]
+  USE_MQA = True
+  MAX_DECODE_STEPS = 128
+  BATCH_SIZE = 8
+
+  @property
+  def test_mode(self) -> bool:
+    return True
+
+
+@servable_model_registry.register
+@quantization.for_transformer(quantize_on_the_fly=False)
 class LLaMA65B(BaseLLaMA):
   """65B model on TPUv4-8.
 
